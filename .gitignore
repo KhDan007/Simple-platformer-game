@@ -49,7 +49,3 @@ main/.vs/
 
 # Folder with executables for x64 systems
 main/x64/
-
-main/main.vsxproj
-main/main.vsxproj.filters
-main/main.vsxproj.user

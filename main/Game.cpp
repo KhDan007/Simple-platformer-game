@@ -19,7 +19,7 @@ void Game::initWindow()
 	this->window = new sf::RenderWindow(this->videomode, "Game4", sf::Style::Titlebar | sf::Style::Close);
 	
 	// Framerate
-	this->window->setFramerateLimit(60);
+	this->window->setFramerateLimit(144);
 	
 	// Vertical sync
 	this->window->setVerticalSyncEnabled(false);

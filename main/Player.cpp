@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "Player.h"
 
+void Player::initVariables()
+{
+	this->moving = false;
+	this->movementSpeed = 2.f;
+}
+
 // INIT TEXTURES
 void Player::initTexture()
 {
@@ -16,17 +22,24 @@ void Player::initSprite()
 {
 	this->sprite.setTexture(this->textureSheet);
 
-	this->currentFrame = sf::IntRect(9, 7, 26, 43);
+	this->currentFrame = sf::IntRect(0, 0, 40, 50);
 	this->sprite.setTextureRect(this->currentFrame);
 
-	this->sprite.setScale(sf::Vector2f(3, 3));
+	this->sprite.setScale(5,5);
+}
+
+void Player::initAnimations()
+{
+	this->animationTimer.restart();
 }
 
 // CONSTURCTORS / DESTRUCTORS
 Player::Player()
 {
+	this->initVariables();
 	this->initTexture();
 	this->initSprite();
+	this->initAnimations();
 }
 
 Player::~Player()
@@ -35,30 +48,54 @@ Player::~Player()
 
 // Functions
 
+// UPDATE
 void Player::updateMovement()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) // Left
 	{
-		this->sprite.move(-5.f, 0);
+		this->sprite.move(-movementSpeed, 0);
+		this->moving = true;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) // Right
 	{
-		this->sprite.move(5.f, 0);
+		this->sprite.move(movementSpeed, 0);
+		this->moving = true;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) // Up
 	{
-		this->sprite.move(0, -5.f);
+		this->sprite.move(0, -movementSpeed);
+		this->moving = true;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) // Down
 	{
-		this->sprite.move(0, 5.f);
+		this->sprite.move(0, movementSpeed);
+		this->moving = true;
 	}
 }
 
-// UPDATE
+void Player::updateAnimations()
+{
+	if (this->animationTimer.getElapsedTime().asMilliseconds() >= 200)
+	{
+		if (this->moving == false) // IDLE Animation
+		{
+			this->currentFrame.left += 40.f;
+			if (this->currentFrame.left >= 160)
+				this->currentFrame.left = 0;
+		}
+
+
+		this->animationTimer.restart();
+		this->sprite.setTextureRect(this->currentFrame);
+	}
+
+	this->moving = false;
+}
+
 void Player::update()
 {
+	this->updateAnimations();
 	this->updateMovement();
 }
 

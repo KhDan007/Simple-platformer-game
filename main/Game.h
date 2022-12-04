@@ -1,6 +1,3 @@
-#pragma once
-
-// Precompiled headers
 #include "stdafx.h"
 
 /*
@@ -23,7 +20,7 @@ private:
 	bool isEndgame;
 
 	// Player
-	Player* player;
+	Player player;
 	
 	// INIT functions
 	void initVariables();
@@ -46,6 +43,7 @@ public:
 	void update();
 	
 	// RENDER
+	void renderPlayer();
 	void render();
 };
 

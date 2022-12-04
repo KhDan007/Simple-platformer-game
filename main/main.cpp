@@ -1,4 +1,3 @@
-// Precompiled headers
 #include "stdafx.h"
 
 // Import Game class

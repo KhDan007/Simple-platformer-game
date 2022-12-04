@@ -1,4 +1,3 @@
-// Precompiled headers
 #include "stdafx.h"
 
 #include "Game.h"
@@ -28,13 +27,14 @@ void Game::initWindow()
 
 void Game::initPlayer()
 {
-	this->player = new Player;
+
 }
 
 
 // Constructor
 Game::Game()
 {
+
 	this->initVariables();
 	this->initWindow();
 }
@@ -43,7 +43,6 @@ Game::Game()
 Game::~Game()
 {
 	delete this->window;
-	delete this->player;
 }
 
 // Functions
@@ -77,7 +76,7 @@ void Game::pollEvents()
 
 void Game::updatePlayer()
 {
-	this->player->update();
+	this->player.update();
 }
 
 // UPDATE
@@ -98,6 +97,11 @@ void Game::update()
 	}
 }
 
+void Game::renderPlayer()
+{
+	this->player.render(this->window);
+}
+
 // RENDER
 void Game::render()
 {
@@ -107,9 +111,7 @@ void Game::render()
 	// DRAW EVERYTHING HERE:
 	// ========================================
 
-
-
-
+	this->renderPlayer();
 
 
 

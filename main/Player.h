@@ -1,6 +1,6 @@
-#pragma once
-// Precompiled headers
 #include "stdafx.h"
+
+#include <iostream>
 
 class Player
 {
@@ -10,13 +10,15 @@ private:
 	sf::Texture textureSheet;
 
 	// Animation
+	sf::IntRect currentFrame;
+
 
 	// Movement
 
 	// Core
 
 	// Init functions
-	void initTextures();
+	void initTexture();
 	void initSprite();
 
 public:
@@ -24,6 +26,7 @@ public:
 	virtual ~Player();
 
 	// Functions
+	void updateMovement();
 	void update();
 	void render(sf::RenderTarget* target);
 };

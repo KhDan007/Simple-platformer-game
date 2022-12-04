@@ -1,12 +1,15 @@
 #pragma once
 
+// Precompiled headers
+#include "stdafx.h"
+
 /*
 	Main game class. Something like a wrapper for
 	whole game or Game engine.
 */
 
-// Precompiled headers
-#include "stdafx.h"
+
+#include "Player.h"
 
 class Game
 {
@@ -19,10 +22,13 @@ private:
 	// Member variables
 	bool isEndgame;
 
+	// Player
+	Player* player;
 	
 	// INIT functions
 	void initVariables();
 	void initWindow();
+	void initPlayer();
 
 public:
 	// Constructors / Destructors
@@ -36,6 +42,7 @@ public:
 
 
 	// UPDATE
+	void updatePlayer();
 	void update();
 	
 	// RENDER

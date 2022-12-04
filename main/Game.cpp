@@ -1,4 +1,9 @@
+// Precompiled headers
+#include "stdafx.h"
+
 #include "Game.h"
+
+
 // INIT VARIABLES
 void Game::initVariables()
 {
@@ -12,13 +17,18 @@ void Game::initWindow()
 	this->videomode = sf::VideoMode(800, 600);
 	
 	// Name, style of the window
-	this->window = new sf::RenderWindow(this->videomode, "Title", sf::Style::Titlebar | sf::Style::Close);
+	this->window = new sf::RenderWindow(this->videomode, "Game4", sf::Style::Titlebar | sf::Style::Close);
 	
 	// Framerate
 	this->window->setFramerateLimit(60);
 	
 	// Vertical sync
 	this->window->setVerticalSyncEnabled(false);
+}
+
+void Game::initPlayer()
+{
+	this->player = new Player;
 }
 
 
@@ -32,7 +42,8 @@ Game::Game()
 // Destructor
 Game::~Game()
 {
-	delete window;
+	delete this->window;
+	delete this->player;
 }
 
 // Functions
@@ -64,6 +75,11 @@ void Game::pollEvents()
 	}
 }
 
+void Game::updatePlayer()
+{
+	this->player->update();
+}
+
 // UPDATE
 void Game::update()
 {
@@ -74,7 +90,7 @@ void Game::update()
 		// UPDATE EVERYTHING HERE:
 		// ========================================
 
-
+		this->updatePlayer();
 
 
 

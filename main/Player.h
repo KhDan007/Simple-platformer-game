@@ -28,26 +28,32 @@ private:
 
 	// Physics
 	sf::Vector2f velocity;
-	float acceleration;
-	float deceleration;
+	float velocityMax;
+	float velocityMin;
 
-	// Core
+	float acceleration;
+	float drag;
 
 	// Init functions
 	void initVariables();
 	void initTexture();
 	void initSprite();
 	void initAnimations();
+	void initPhysics();
 
 public:
 	Player();
 	virtual ~Player();
 
 	// Functions
+	void move(const float dir_x, const float dir_y);
+
 	void updatePhysics();
 	void updateMovement();
 	void updateAnimations();
 	void update();
+
+
 	void render(sf::RenderTarget* target);
 };
 

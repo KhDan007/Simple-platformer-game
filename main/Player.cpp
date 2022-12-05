@@ -37,6 +37,14 @@ void Player::initAnimations()
 	this->animationTimer.restart();
 }
 
+void Player::initPhysics()
+{
+	this->velocityMax = 8.f;
+	this->velocityMin = 1.f;
+	this->acceleration = 2.f;
+	this->drag = 0.94f;
+}
+
 // CONSTURCTORS / DESTRUCTORS
 Player::Player()
 {
@@ -44,6 +52,7 @@ Player::Player()
 	this->initTexture();
 	this->initSprite();
 	this->initAnimations();
+	this->initPhysics();
 }
 
 Player::~Player()
@@ -52,9 +61,36 @@ Player::~Player()
 
 // Functions
 
+void Player::move(const float dir_x, const float dir_y)
+{
+	// Acceleration
+	this->velocity.x += dir_x * this->acceleration;
+	//this->velocity.y += dir_y - this->acceleration;
+
+	// Limit velocity
+	if (std::abs(this->velocity.x) > this->velocityMax)
+	{
+		this->velocity.x = this->velocityMax * ((this->velocity.x < 0.f) ? -1.f : 1.f);
+	}
+}
+
 void Player::updatePhysics()
 {
+	// Decelration
+	this->velocity *= this->drag;
 
+
+	// Limit deceleration
+	if (std::abs(this->velocity.x) < this->velocityMin)
+	{
+		this->velocity.x = 0.f;
+	}
+	if (std::abs(this->velocity.y) < this->velocityMin)
+	{
+		this->velocity.y = 0.f;
+	}
+
+	this->sprite.move(this->velocity);
 }
 
 // UPDATE
@@ -63,12 +99,12 @@ void Player::updateMovement()
 	this->animState = PLAYER_ANIMATION_STATES::IDLE;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) // Left
 	{
-		this->sprite.move(-movementSpeed, 0);
+		this->move(-1, 0);
 		this->animState = PLAYER_ANIMATION_STATES::MOVING_LEFT;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) // Right
 	{
-		this->sprite.move(movementSpeed, 0);
+		this->move(1, 0);
 		this->animState = PLAYER_ANIMATION_STATES::MOVING_RIGHT;
 	}
 
@@ -158,6 +194,7 @@ void Player::update()
 {
 	this->updateAnimations();
 	this->updateMovement();
+	this->updatePhysics();
 }
 
 // RENDER

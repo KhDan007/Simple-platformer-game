@@ -6,7 +6,7 @@ void Player::initVariables()
 	this->movementSpeed = 2.f;
 	this->animState = PLAYER_ANIMATION_STATES::IDLE;
 	this->isFlipped = false;
-	this->scaleSize = 5.f;
+	this->scaleSize = 3.f;
 }
 
 // INIT TEXTURES
@@ -40,12 +40,12 @@ void Player::initAnimations()
 
 void Player::initPhysics()
 {
-	this->velocityMax = 8.f;
+	this->velocityMax = 6.f;
 	this->velocityMin = 1.f;
 	this->acceleration = 2.f;
-	this->drag = 0.94f;
-	this->gravity = 1.2f;
-	this->velocityMaxY = 2.f;
+	this->drag = 0.91f;
+	this->gravity = 3.f;
+	this->velocityMaxY = 5.f;
 }
 
 // CONSTURCTORS / DESTRUCTORS
@@ -190,7 +190,8 @@ void Player::updateAnimations()
 		if (this->isFlipped == true)
 		{
 			this->sprite.setScale(scaleSize, scaleSize);
-			this->sprite.move(-this->sprite.getGlobalBounds().width, 0 || this->getAnimSwitch());
+			this->sprite.setOrigin(0, 0);
+			//this->sprite.move(-this->sprite.getGlobalBounds().width, 0 || this->getAnimSwitch());
 			this->isFlipped = false;
 		}
 
@@ -210,7 +211,8 @@ void Player::updateAnimations()
 		if (this->isFlipped == false)
 		{
 			this->sprite.setScale(-scaleSize, scaleSize);
-			this->sprite.move(this->sprite.getGlobalBounds().width, 0 || this->getAnimSwitch());
+			this->sprite.setOrigin(this->sprite.getGlobalBounds().width / scaleSize, 0);
+			//this->sprite.move(this->sprite.getGlobalBounds().width, 0 || this->getAnimSwitch());
 			this->isFlipped = true;
 		}
 

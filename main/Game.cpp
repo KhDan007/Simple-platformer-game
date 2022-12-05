@@ -84,6 +84,16 @@ void Game::pollEvents()
 	}
 }
 
+void Game::updateCollision()
+{
+	// Collision with bottom of the screen
+	if (this->player.getBounds().top + this->player.getBounds().height > this->window->getSize().y)
+	{
+		this->player.resetVelocityY();
+		this->player.setPosition(this->player.getPosition().x, this->window->getSize().y - this->player.getBounds().height);
+	}
+}
+
 void Game::updatePlayer()
 {
 	this->player.update();
@@ -100,7 +110,7 @@ void Game::update()
 		// ========================================
 
 		this->updatePlayer();
-
+		this->updateCollision();
 
 
 		// ========================================

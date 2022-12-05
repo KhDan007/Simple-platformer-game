@@ -39,6 +39,7 @@ public:
 
 
 	// UPDATE
+	void updateCollision();
 	void updatePlayer();
 	void update();
 	

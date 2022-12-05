@@ -49,6 +49,12 @@ public:
 
 	// Accessors
 	const bool& getAnimSwitch();
+	const sf::FloatRect getBounds() const;
+	const sf::Vector2f getPosition() const;
+
+	// Modifiers
+	void resetVelocityY();
+	void setPosition(const float x, const float y);
 
 	// Functions
 	void resetAnimTimer();

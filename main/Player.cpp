@@ -29,7 +29,7 @@ void Player::initSprite()
 
 	this->sprite.setScale(scaleSize, scaleSize);
 
-	this->sprite.setPosition(sf::Vector2f(100, 200));
+	this->sprite.setPosition(sf::Vector2f(100, -50));
 }
 
 void Player::initAnimations()
@@ -44,8 +44,8 @@ void Player::initPhysics()
 	this->velocityMin = 1.f;
 	this->acceleration = 2.f;
 	this->drag = 0.94f;
-	this->gravity = 2.f;
-	this->velocityMaxY = 3.f;
+	this->gravity = 1.2f;
+	this->velocityMaxY = 2.f;
 }
 
 // CONSTURCTORS / DESTRUCTORS
@@ -70,6 +70,26 @@ const bool& Player::getAnimSwitch()
 		this->animationSwitch = false;
 
 	return animSwitch;
+}
+
+const sf::FloatRect Player::getBounds() const
+{
+	return this->sprite.getGlobalBounds();
+}
+
+const sf::Vector2f Player::getPosition() const
+{
+	return this->sprite.getPosition();
+}
+
+void Player::resetVelocityY()
+{
+	this->velocity.y = 0.f;
+}
+
+void Player::setPosition(const float x, const float y)
+{
+	this->sprite.setPosition(sf::Vector2f(x, y));
 }
 
 // Functions

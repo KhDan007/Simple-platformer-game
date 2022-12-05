@@ -35,6 +35,7 @@ void Player::initSprite()
 void Player::initAnimations()
 {
 	this->animationTimer.restart();
+	this->animationSwitch = true;
 }
 
 void Player::initPhysics()
@@ -43,6 +44,8 @@ void Player::initPhysics()
 	this->velocityMin = 1.f;
 	this->acceleration = 2.f;
 	this->drag = 0.94f;
+	this->gravity = 2.f;
+	this->velocityMaxY = 3.f;
 }
 
 // CONSTURCTORS / DESTRUCTORS
@@ -59,13 +62,30 @@ Player::~Player()
 {
 }
 
+const bool& Player::getAnimSwitch()
+{
+	bool animSwitch = this->animationSwitch;
+
+	if (this->animationSwitch)
+		this->animationSwitch = false;
+
+	return animSwitch;
+}
+
 // Functions
+
+void Player::resetAnimTimer()
+{
+	this->animationTimer.restart();
+	this->animationSwitch = true;
+
+
+}
 
 void Player::move(const float dir_x, const float dir_y)
 {
 	// Acceleration
 	this->velocity.x += dir_x * this->acceleration;
-	//this->velocity.y += dir_y - this->acceleration;
 
 	// Limit velocity
 	if (std::abs(this->velocity.x) > this->velocityMax)
@@ -76,6 +96,15 @@ void Player::move(const float dir_x, const float dir_y)
 
 void Player::updatePhysics()
 {
+	// Gravity
+	this->velocity.y += 1.0 * this->gravity;
+
+	// Limit Gravity
+	if (std::abs(this->velocity.y) > this->velocityMaxY)
+	{
+		this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
+	}
+
 	// Decelration
 	this->velocity *= this->drag;
 
@@ -125,7 +154,7 @@ void Player::updateAnimations()
 	switch (this->animState)
 	{
 	case PLAYER_ANIMATION_STATES::IDLE:
-		if (this->animationTimer.getElapsedTime().asMilliseconds() >= 200)
+		if (this->animationTimer.getElapsedTime().asMilliseconds() >= 200 || this->getAnimSwitch())
 		{
 			this->currentFrame.top = 0.f;
 			this->currentFrame.left += 40.f;
@@ -141,7 +170,7 @@ void Player::updateAnimations()
 		if (this->isFlipped == true)
 		{
 			this->sprite.setScale(scaleSize, scaleSize);
-			this->sprite.move(-this->sprite.getGlobalBounds().width, 0);
+			this->sprite.move(-this->sprite.getGlobalBounds().width, 0 || this->getAnimSwitch());
 			this->isFlipped = false;
 		}
 
@@ -161,7 +190,7 @@ void Player::updateAnimations()
 		if (this->isFlipped == false)
 		{
 			this->sprite.setScale(-scaleSize, scaleSize);
-			this->sprite.move(this->sprite.getGlobalBounds().width, 0);
+			this->sprite.move(this->sprite.getGlobalBounds().width, 0 || this->getAnimSwitch());
 			this->isFlipped = true;
 		}
 

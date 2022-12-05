@@ -70,6 +70,16 @@ void Game::pollEvents()
 		case sf::Event::KeyPressed: // If pressed key ESCAPE
 			if (this->ev.key.code == sf::Keyboard::Escape)
 				this->window->close();
+			break;
+
+		case sf::Event::KeyReleased:
+			if ((this->ev.key.code == sf::Keyboard::A)
+				|| (this->ev.key.code == sf::Keyboard::D)
+				|| (this->ev.key.code == sf::Keyboard::W)
+				|| (this->ev.key.code == sf::Keyboard::S))
+			{
+				this->player.resetAnimTimer();
+			}
 		}
 	}
 }
